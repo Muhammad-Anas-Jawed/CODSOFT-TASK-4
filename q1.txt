@@ -1,0 +1,74 @@
+1.	Quiz Questions and Options: Store quiz questions along with multiple-choice options and correct Answers
+
+import java.util.ArrayList;
+import java.util.List;
+
+class QuizQuestion {
+    private String question;
+    private List<String> options;
+    private String correctAnswer;
+
+    public QuizQuestion(String question, List<String> options, String correctAnswer) {
+        this.question = question;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+}
+MAIN:
+import java.util.ArrayList;
+import java.util.List;
+
+public class Quiz {
+    public static void main(String[] args) {
+        List<QuizQuestion> quizQuestions = new ArrayList<>();
+
+   
+        quizQuestions.add(new QuizQuestion(
+            "c?",
+            List.of("A) Rawalpindi", "B) Karachi", "C) Islamabad", "D) Lahore"),
+            "C) Islamabad"
+        ));
+
+        quizQuestions.add(new QuizQuestion(
+            "The Sun’s mass mainly consists of",
+            List.of("A) hydrogen", "B) nitrogen", "C) carbon dioxide", "D) helium"),
+            "(A) hydrogen"
+        ));
+
+        quizQuestions.add(new QuizQuestion(
+            "Who wrote the play 'Romeo and Juliet'?",
+            List.of("A) William Shakespeare", "B) Charles Dickens", "C) Jane Austen", "D) Mark Twain"),
+            "A) William Shakespeare"
+        ));
+        
+             quizQuestions.add(new QuizQuestion(
+            "Among the following which is not a database management software?",
+            List.of("A) MySQL", "B) COBOL", "C) Sybase", "D) Oracle"),
+            "B) COBOL"
+        ));
+
+   
+        for (int i = 0; i < quizQuestions.size(); i++) {
+            QuizQuestion question = quizQuestions.get(i);
+            System.out.println("Question " + (i + 1) + ": " + question.getQuestion());
+            List<String> options = question.getOptions();
+            for (String option : options) {
+                System.out.println(option);
+            }
+            System.out.println("Correct Answer: " + question.getCorrectAnswer());
+            System.out.println();
+        }
+    }
+}

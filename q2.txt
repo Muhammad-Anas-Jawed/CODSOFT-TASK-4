@@ -1,0 +1,131 @@
+2.	Timer: Implement a timer for each question to limit the time to answer.
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+class QuizQuestion {
+    private String question;
+    private List<String> options;
+    private String correctAnswer;
+    private int timeLimitInSeconds;
+
+    public QuizQuestion(String question, List<String> options, String correctAnswer, int timeLimitInSeconds) {
+        this.question = question;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+        this.timeLimitInSeconds = timeLimitInSeconds;
+    }
+
+    QuizQuestion(String among_the_following_which_is_not_a_databa, List<String> of, String b_cobol) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public int getTimeLimitInSeconds() {
+        return timeLimitInSeconds;
+    }
+}
+MAIN:
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Timer; 
+import java.util.TimerTask;
+
+
+public class Quiz {
+    private static Timer timer;
+    private static boolean questionAnswered;
+
+    public static void main(String[] args) {
+        List<QuizQuestion> quizQuestions = new ArrayList<>();
+
+ 
+
+        quizQuestions.add(new QuizQuestion(
+            "What is the capital of Pakistan?",
+            List.of("A) Rawalpindi", "B) Karachi", "c) islamabad", "D) Lahore"),
+                "c) islamabad",
+            60
+        ));
+
+        quizQuestions.add(new QuizQuestion(
+            "The Sun’s mass mainly consists of?",
+            List.of("A) hydrogen", "B) nitrogen", "C) carbon dioxide", "D) helium"),
+            "a) hydrogen",
+            60
+        ));
+
+ 
+
+        quizQuestions.add(new QuizQuestion(
+            "Who wrote the play 'Romeo and Juliet'?",
+            List.of("a) william shakespeare", "B) Charles Dickens", "C) Jane Austen", "D) Mark Twain"),
+            "a) william shakespeare",
+            60
+        ));
+             quizQuestions.add(new QuizQuestion(
+            "Among the following which is not a database management software?",
+            List.of("A) MySQL", "b) COBOL", "C) Sybase", "D) Oracle"),
+            "b) COBOL",
+             60
+        ));
+        timer = new Timer();
+
+        for (int i = 0; i < quizQuestions.size(); i++) {
+            QuizQuestion question = quizQuestions.get(i);
+            questionAnswered = false;
+
+            System.out.println("Question " + (i + 1) + ": " + question.getQuestion());
+            List<String> options = question.getOptions();
+            for (String option : options) {
+                System.out.println(option);
+            }
+            System.out.println("Correct Answer: " + question.getCorrectAnswer());
+            System.out.println("Time Limit: " + question.getTimeLimitInSeconds() + " seconds");
+
+            timer.schedule(new TimerTask() {
+                  
+                @Override
+                public void run() {
+                    if (!questionAnswered) {
+                        System.out.println("Time's up! You did not answer in time.");
+                        timer.cancel();
+                    }
+                }
+            }, question.getTimeLimitInSeconds() * 1000); 
+            
+            try {
+                Thread.sleep(5000); 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+}
+            System.out.print("Your answer: ");
+            Scanner scanner = new Scanner(System.in);
+            String userAnswer = scanner.nextLine();
+
+            if (userAnswer.equalsIgnoreCase(question.getCorrectAnswer())) {
+                System.out.println("Correct!");
+            } else {
+                System.out.println("Wrong!");
+            }
+            questionAnswered = true;
+            System.out.println();
+        }
+        timer.cancel();
+    }
+}

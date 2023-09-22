@@ -1,0 +1,127 @@
+4.	Answer Submission: Allow users to select an option and submit their answer within the given time
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+class QuiizeQuestion {
+    private String question;
+    private List<String> options;
+    private int correctOption;
+    private int timeLimitInSeconds;
+
+    public QuiizeQuestion(String question, List<String> options, int correctOption, int timeLimitInSeconds) {
+        this.question = question;
+        this.options = options;
+        this.correctOption = correctOption;
+        this.timeLimitInSeconds = timeLimitInSeconds;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public int getCorrectOption() {
+        return correctOption;
+    }
+
+    public int getTimeLimitInSeconds() {
+        return timeLimitInSeconds;
+    }
+}
+Main:
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Quiize {
+    private static Timer timer;
+
+    public static void main(String[] args) {
+        List<QuiizeQuestion> quiizeQuestions = new ArrayList<>();
+        quiizeQuestions.add(new QuiizeQuestion(
+             "What is the capital of Pakistan?",
+            List.of("A) Rawalpindi", "B) Karachi", "c) islamabad", "D) Lahore"),
+                2,
+            10
+        ));
+
+        quiizeQuestions.add(new QuiizeQuestion(
+            "The Sun’s mass mainly consists of?",
+            List.of("A) hydrogen", "B) nitrogen", "C) carbon dioxide", "D) helium"),
+            0,
+            15
+        ));
+        quiizeQuestions.add(new QuiizeQuestion(
+            "Who wrote the play 'Romeo and Juliet'?",
+            List.of("a) william shakespeare", "B) Charles Dickens", "C) Jane Austen", "D) Mark Twain"),
+            0,
+            20
+        ));
+             quiizeQuestions.add(new QuiizeQuestion(
+            "Among the following which is not a database management software?",
+            List.of("A) MySQL", "b) COBOL", "C) Sybase", "D) Oracle"),
+            1,
+             25
+        ));
+
+
+        timer = new Timer();
+
+        for (int i = 0; i < quiizeQuestions.size(); i++) {
+            QuiizeQuestion question = quiizeQuestions.get(i);
+
+            System.out.println("Question " + (i + 1) + ": " + question.getQuestion());
+            List<String> options = question.getOptions();
+            for (String option : options) {
+                System.out.println(option);
+            }
+            System.out.println("Time Limit: " + question.getTimeLimitInSeconds() + " seconds");
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("Time's up! You did not submit an answer in time.");
+                    timer.cancel();
+                }
+            }, question.getTimeLimitInSeconds() * 1000); 
+
+            int userAnswer = getUserInput(options.size());
+
+         
+            if (userAnswer == question.getCorrectOption()) {
+                System.out.println("Correct!");
+            } else {
+                System.out.println("Wrong! The correct answer is: " + options.get(question.getCorrectOption()));
+            }
+            System.out.println();
+        }
+
+        timer.cancel();
+    }
+
+ 
+    private static int getUserInput(int numOptions) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("Select an option (1-" + numOptions + "): ");
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                if (choice >= 1 && choice <= numOptions) {
+                    return choice - 1; 
+                } else {
+                    System.out.println("Invalid choice. Please select a valid option.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); 
+            }
+        }
+    }
+}
